@@ -1,0 +1,21 @@
+﻿<Controls:MetroWindow x:Class="YubiCrypt.Desktop.YubiCryptSignIn"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                      Title="YubiCrypt Authentication" Height="600" Width="900"
+                      BorderBrush="#FF41B1FF" BorderThickness="2,0,2,2" 
+                      Loaded="CustomDialog_Loaded" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="messageText" Height="30" Text="Authentication demo, please ignore" />
+        <WebBrowser Grid.Row="1"
+                    Margin="10,0"
+                    VerticalAlignment="Top"
+                    Name="MainBrowser" Navigated="MainBrowser_Navigated" Navigating="MainBrowser_Navigating" />
+        <Button Grid.Row="2" x:Name="closeButton" Content="Close" HorizontalAlignment="Right" Margin="10,10" Click="closeButton_Click" />
+    </Grid>
+</Controls:MetroWindow>

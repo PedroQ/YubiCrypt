@@ -1,0 +1,14 @@
+﻿﻿@using System
+@using System.Security.Claims
+@using System.Web
+@using Microsoft.Owin
+@{
+    IOwinContext owinContext = Context.GetOwinContext();
+    var error = owinContext.Get<string>("oauth.Error");
+    var errorDescription = owinContext.Get<string>("oauth.ErrorDescription");
+    var errorUri = owinContext.Get<string>("oauth.ErrorUri");
+}
+<h1>YubiCrypt</h1>
+<h2>OAuth2 Authorize Error</h2>
+<p>Error: @error</p>
+<p>@errorDescription</p>

@@ -1,0 +1,40 @@
+﻿@{
+    ViewBag.Title = "Configuration upload";
+}
+
+<div class="jumbotron">
+    <h1>Configuration upload</h1>
+    <p class="lead">Drag your .json configuration files here to add your Youbikey(s) to the YubiCrypt platform.</p>
+    <form action="~/Yubikeys/SaveDropzoneJsUploadedFiles" class="dropzone" id="dropzoneJsForm"></form><br />
+    <p><input id="submit-all" type="submit" value="Submit All Configuraions" class="btn btn-default btn-lg" /></p>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+
+        Dropzone.options.dropzoneJsForm = {
+
+            //prevents Dropzone from uploading dropped files immediately
+            autoProcessQueue: false,
+
+            init: function () {
+                var submitButton = document.querySelector("#submit-all");
+                var myDropzone = this; //closure
+
+                submitButton.addEventListener("click", function () {
+                    myDropzone.processQueue(); //tell Dropzone to process all queued files
+                });
+
+                this.on("complete", function (file) {
+                    if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
+                        setTimeout(function () {
+                            window.location.href = "/Yubikeys";
+                        }, 2000);
+                    }
+                });
+
+            }
+        };
+
+    </script>
+}

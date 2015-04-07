@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="YubiCrypt.Desktop.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="AccessToken" Type="YubiCrypt.ClientLibrary.YubiCryptOAuth2Token" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="CipherSuite" Type="YubiCrypt.ClientLibrary.CipherSuite" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+  </Settings>
+</SettingsFile>

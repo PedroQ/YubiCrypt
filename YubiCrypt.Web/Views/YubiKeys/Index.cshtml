@@ -1,0 +1,63 @@
+﻿@model IEnumerable<YubiCrypt.Web.Models.YubiKey>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Upload Yubikey configuraion", "Upload")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Privateidentity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AESKey)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Active)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Counter)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Time)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateAdded)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Privateidentity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AESKey)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Active)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Counter)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Time)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateAdded)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.YubiKeyUID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.YubiKeyUID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.YubiKeyUID })
+        </td>
+    </tr>
+}
+
+</table>

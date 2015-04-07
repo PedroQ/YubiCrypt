@@ -1,0 +1,22 @@
+﻿{
+    "Contents": [
+        {
+            "FileName": "file1.png",
+            "Modified": "\/Date(1335205592410)\/",
+            "Size": "204 KB",
+            "InternalName": "file1.png.ybc"
+        },
+        {
+            "FileName": "file2.txt",
+            "Modified": "\/Date(1335205592410)\/",
+            "Size": "123KB",
+            "InternalName": "file2.png.ybc"
+        },
+        {
+            "FileName": "file3.nsa",
+            "Modified": "\/Date(1335205592410)\/",
+            "Size": "456KB",
+            "InternalName": "file3.png.ybc"
+        }
+    ]
+}

@@ -1,0 +1,66 @@
+﻿@model YubiCrypt.Web.Models.YubiKey
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>YubiKey</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Privateidentity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Privateidentity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AESKey)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AESKey)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Active)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Active)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Counter)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Counter)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Time)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Time)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateAdded)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateAdded)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.YubiKeyUID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,160 @@
+﻿<controls:MetroWindow
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+	xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+	xmlns:gif="http://wpfanimatedgif.codeplex.com"
+	xmlns:local="clr-namespace:YubiCrypt.Desktop"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="YubiCrypt.Desktop.MainWindow"
+	gif:ImageBehavior.AnimateInDesignMode="True"
+	Title="YubiCrypt Desktop Client" 
+	Height="600" 
+	Width="800" Icon="images/icon.png" BorderBrush="#FF41B1FF" BorderThickness="2,0,2,2" ShowMaxRestoreButton="False" ResizeMode="CanMinimize" Loaded="MetroWindow_Loaded" WindowStartupLocation="CenterScreen">
+	<controls:MetroWindow.RightWindowCommands>
+		<controls:WindowCommands>
+			<Button Click="ShowSettingsFlyout"
+					ToolTip="Show YubiCrypt settings"
+					Content="Settings" />
+		</controls:WindowCommands>
+	</controls:MetroWindow.RightWindowCommands>
+	<controls:MetroWindow.Flyouts>
+		<controls:FlyoutsControl x:Name="flyoutsControl">
+			<controls:Flyout x:Name="SettingsFlyout" Header="YubiCrypt Settings"
+				AnimateOnPositionChange="{Binding AnimateOnPositionChange}"
+				Position="Right" IsModal="True" ClosingFinished="SettingsFlyout_ClosingFinished">
+				<StackPanel VerticalAlignment="Center">
+					<Grid Margin="10, 10">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="200" />
+							<ColumnDefinition Width="Auto" />
+						</Grid.ColumnDefinitions>
+						<TextBlock Grid.Column="0" Margin="10, 0" Text="Key Derivation Function" VerticalAlignment="Center" />
+						<ComboBox Grid.Column="1" x:Name="SettingKDFComboBox" Margin="10,0" SelectedIndex="0" Width="250" DisplayMemberPath="Name" SelectedValuePath="IDByte" />
+					</Grid>
+					<Grid Margin="10, 10">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="200" />
+							<ColumnDefinition Width="Auto" />
+						</Grid.ColumnDefinitions>
+						<TextBlock Grid.Column="0" Margin="10, 0" Text="Block Cipher" VerticalAlignment="Center" />
+						<ComboBox Grid.Column="1" x:Name="SettingSymmetricCipherComboBox" Margin="10,0" SelectedIndex="0" Width="250" DisplayMemberPath="Name" SelectedValuePath="IDByte"/>
+					</Grid>
+					<Grid Margin="10, 10">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="200" />
+							<ColumnDefinition Width="Auto" />
+						</Grid.ColumnDefinitions>
+						<TextBlock Grid.Column="0" Margin="10, 0" Text="Message Authentication Code" VerticalAlignment="Center" />
+						<ComboBox Grid.Column="1" x:Name="SettingMACComboBox" Margin="10,0" SelectedIndex="0" Width="250" DisplayMemberPath="Name" SelectedValuePath="IDByte"/>
+					</Grid>
+					<Button x:Name="SettingsSaveButton" Content="Save Settings" Width="100" HorizontalAlignment="Right" Margin="10, 10" Click="SettingsSaveButton_Click"/>
+				</StackPanel>
+			</controls:Flyout>
+		</controls:FlyoutsControl>
+	</controls:MetroWindow.Flyouts>
+	<StackPanel>
+		<TabControl Height="565" SelectionChanged="TabControl_SelectionChanged" controls:TabControlHelper.IsUnderlined="True">
+			<TabItem x:Name="tabFiles" Header="Files">
+				<Grid Margin="5,0">
+					<DockPanel Height="Auto" x:Name="fileListPanel" Width="Auto" LastChildFill="True">
+						<StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
+							<Button x:Name="uploadButton" Width="100"
+								Content="Upload"
+								Style="{DynamicResource AccentedSquareButtonStyle}" Click="uploadButton_Click" />
+						</StackPanel>
+						<ListView x:Name="filesListBox"
+							BorderThickness="0"
+							SelectionChanged="filesListBox_SelectionChanged" ContextMenuOpening="filesListBox_ContextMenuOpening">
+							<ListView.View>
+								<GridView>
+									<GridViewColumn DisplayMemberBinding="{Binding FileName}"
+										Header="Filename" Width="450" />
+									<GridViewColumn DisplayMemberBinding="{Binding Size}"
+										Header="Size" Width="65" />
+									<GridViewColumn DisplayMemberBinding="{Binding Modified}"
+										Header="Modified" Width="150" />
+								</GridView>
+							</ListView.View>
+							<ListView.ContextMenu>
+								<ContextMenu>
+									<MenuItem x:Name="filesListDownloadContextMenu" Header="Download" Click="filesListDownloadContextMenu_Click" />
+									<MenuItem x:Name="filesListDeleteContextMenu" Header="Delete" Click="filesListDeleteContextMenu_Click"/>
+									<MenuItem Header="Rename" IsEnabled="False"/>
+								</ContextMenu>
+							</ListView.ContextMenu>
+						</ListView>
+					</DockPanel>
+					<StackPanel x:Name="progressStack" VerticalAlignment="Center" Margin="10,0" Visibility="Hidden">
+						<controls:ProgressRing x:Name="progressRing" IsActive="True" />
+						<TextBlock x:Name="progressText" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="18" />
+					</StackPanel>
+					<Image x:Name="loadingGif" gif:ImageBehavior.AnimatedSource="images/loading.gif" Visibility="Hidden" />
+					<TextBlock x:Name="loadingTextBlock" Text="Loading..." Margin="283,375,283,11" FontSize="48" Foreground="White" Visibility="Hidden" />
+				</Grid>
+			</TabItem>
+			<TabItem Header="Yubikeys">
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="*" />
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+					<StackPanel Margin="8,0">
+						<StackPanel.Resources>
+							<local:BoolToVisibility x:Key="BoolToVisibilityConverter"/>
+						</StackPanel.Resources>
+						<Label Content="Provision Yubikey" Style="{DynamicResource DescriptionHeaderStyle}"/>
+						<Label Content="Backup?" />
+						<CheckBox x:Name="ProvisionTabBackupCheckBox" Content="Save the secret key to the configuration file" Margin="8,0"/>
+						<GroupBox x:Name="ProvisionTabConfigPasswordInput" Header="Protect your secret key"
+							Visibility="{Binding IsChecked, Converter={StaticResource BoolToVisibilityConverter}, ElementName=ProvisionTabBackupCheckBox}">
+							<StackPanel HorizontalAlignment="Left">
+								<Label Content="Backup passphrase: " />
+								<PasswordBox x:Name="ProvisionConfigPassphraseTextbox" Width="500" controls:PasswordBoxHelper.CapsLockIcon="!" />
+								<Label Content="Repeat passphrase: " />
+								<PasswordBox x:Name="ProvisionConfigPassphraseConfirmTextbox" Width="500" controls:PasswordBoxHelper.CapsLockIcon="!" />
+							</StackPanel>
+						</GroupBox>
+						<ListBox x:Name="statusBox" Margin="0,12,0,0" Height="250" FontSize="14">
+							<ListBox.ItemContainerStyle>
+								<Style TargetType="{x:Type ListBoxItem}">
+									<Setter Property="Height" Value="24" />
+								</Style>
+							</ListBox.ItemContainerStyle>
+						</ListBox>
+					</StackPanel>
+					<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="1">
+						<Button x:Name="provisionStartBtn" Content="Start" Width="100" Height="30" Click="provisionStartBtn_Click" Margin="0,12,12,0" HorizontalAlignment="Right" Style="{DynamicResource SquareButtonStyle}" VerticalAlignment="Center"/>
+						<Button x:Name="provisionUploadBtn" Content="Upload" Width="100" Height="30" Margin="0,12,12,0" HorizontalAlignment="Right" IsEnabled="False" Click="provisionUploadBtn_Click" Style="{DynamicResource SquareButtonStyle}" VerticalAlignment="Center"/>
+					</StackPanel>
+				</Grid>
+			</TabItem>
+			<TabItem Header="Offline">
+				<StackPanel VerticalAlignment="Center">
+					<StackPanel>
+						<Button x:Name="OfflineEncryptFileButton" Margin="10,10" Content="Encypt File" Click="OfflineEncryptFileButton_Click" />
+						<Button x:Name="OfflineDecryptFileButton" Margin="10,10" Content="Decypt File" Click="OfflineDecryptFileButton_Click" />
+					</StackPanel>
+				</StackPanel>
+			</TabItem>
+			<TabItem x:Name="tabAccount" Header="Account">
+				<StackPanel>
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Text="Status:" />
+						<TextBlock x:Name="statusMessage" Margin="5,0" />
+					</StackPanel>
+					<Button Content="Authenticate" Click="Button_Click"/>
+					<GroupBox Header="Debug Toolbox">
+						<StackPanel>
+							<StackPanel Orientation="Horizontal">
+								<TextBlock Text="Debug Info:" />
+								<TextBlock x:Name="debugMessage" Margin="5,0" />
+							</StackPanel>
+							<Button Content="Get Token Secret" Click="GetKeyButton_Click"/>
+						</StackPanel>
+					</GroupBox>
+				</StackPanel>
+			</TabItem>
+		</TabControl>
+
+	</StackPanel>
+</controls:MetroWindow>
