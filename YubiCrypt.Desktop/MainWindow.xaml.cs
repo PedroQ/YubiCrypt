@@ -26,6 +26,8 @@ namespace YubiCrypt.Desktop
         private const string API_CLIENT_ID = "123456";
         private const string API_CLIENT_SECRET = "abcdef";
 
+		//private const string StartInfoFileName = "https://yubicryptubi.azurewebsites.net/Yubikeys/Upload";
+		private const string StartInfoFileName = "https://localhost:44300/Yubikeys/Upload";
 
         public MainWindow()
         {
@@ -132,7 +134,7 @@ namespace YubiCrypt.Desktop
 
             Process ycSite = new Process();
 
-            ycSite.StartInfo.FileName = "http://yubicrypt.azurewebsites.net/Yubikeys/Upload";
+            ycSite.StartInfo.FileName = StartInfoFileName;
 
             ycSite.Start();
 
